@@ -38,7 +38,7 @@
   "orientation": "portrait",
   "display": "standalone",
   "dir": "auto",
-  "start_url": "/",
+  "start_url": "https://sanadeghat.github.io/TVmaze/",
   "scope": "/",
   "lang": "en-GB",
   "short_name": "TV Maze",
