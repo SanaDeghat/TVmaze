@@ -1,4 +1,4 @@
-let apiURL = 'https://api.tvmaze.com/';
+let apiURL = 'http://api.tvmaze.com/';
 
 // Initialize page after HTML loads
 window.onload = function () {
@@ -139,3 +139,15 @@ async function showLightBox(episodeId) {
 function closeLightBox() {
     document.getElementById("lightbox").style.display = "none";
 }
+
+// Load the service worker
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('/sw.js').then(function(registration) {
+        console.log('Service Worker registered with scope:', registration.scope);
+      }, function(error) {
+        console.error('Service Worker registration failed:', error);
+      });
+    });
+  }
+  
