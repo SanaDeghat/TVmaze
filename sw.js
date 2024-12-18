@@ -2,17 +2,20 @@ const STATIC_CACHE = 'static-cache-v124';
 const DYNAMIC_CACHE = 'dynamic-cache-v124';
 
 const STATIC_ASSETS = [
-  'TVmaze/',
-  'TVmaze/index.html',
-  'TVmaze/style.css',
-  'TVmaze/apiexample.js'
+  './',                // Root directory
+  './index.html',      // Main HTML file
+  './style.css',       // CSS file
+  './apiexample.js'    // JavaScript file
 ];
 
 // Install event: Cache static assets
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(STATIC_CACHE).then(cache => {
-      return cache.addAll(STATIC_ASSETS);
+      return cache.addAll(STATIC_ASSETS).catch(error => {
+        console.error('Failed to cache static assets:', error);
+        throw error;
+      });
     })
   );
   console.log('Service Worker installed and static assets cached.');
@@ -47,7 +50,7 @@ self.addEventListener('fetch', event => {
           if (cachedResponse) {
             return cachedResponse;
           } else if (event.request.destination === 'document') {
-            return caches.match('index.html');
+            return caches.match('./index.html');
           } else {
             return new Response(
               'App needs to be online to perform this action.',
