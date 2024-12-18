@@ -8,8 +8,6 @@ self.addEventListener('install', function(event) {
         'index.html',      // Main HTML file
         'style.css',       // CSS file
         'apiexample.js',   // JavaScript file
-        'icons/192-192.png',      // 192px icon
-        'icons/icon512_rounded.png' // 512px icon
       ]);
     })
   );
