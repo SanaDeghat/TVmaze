@@ -5,9 +5,7 @@ const STATIC_ASSETS = [
   '/',
   'index.html',
   'style.css',
-  'apiexample.js',
-  'icons/192-192.png',
-  'icons/icon512_rounded.png'
+  'apiexample.js'
 ];
 
 // Install event: Cache static assets
