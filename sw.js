@@ -1,4 +1,4 @@
-const version = 'v124'; // Increment this version for updates
+const version = 'v123'; // Increment this version for updates
 
 self.addEventListener('install', function(event) {
   event.waitUntil(
