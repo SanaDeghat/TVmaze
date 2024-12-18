@@ -5,11 +5,11 @@ self.addEventListener('install', function(event) {
     caches.open('my-cache').then(function(cache) {
       return cache.addAll([
         '/',                // Root file
-        '/index.html',      // Main HTML file
-        '/style.css',       // CSS file
-        '/apiexample.js',   // JavaScript file
-        '/icons/192-192.png',      // 192px icon
-        '/icons/icon512_rounded.png' // 512px icon
+        'index.html',      // Main HTML file
+        'style.css',       // CSS file
+        'apiexample.js',   // JavaScript file
+        'icons/192-192.png',      // 192px icon
+        'icons/icon512_rounded.png' // 512px icon
       ]);
     })
   );
