@@ -2,11 +2,12 @@ const STATIC_CACHE = 'static-cache-v124';
 const DYNAMIC_CACHE = 'dynamic-cache-v124';
 
 const STATIC_ASSETS = [
-  './',                // Root directory
-  './index.html',      // Main HTML file
-  './style.css',       // CSS file
-  './apiexample.js'    // JavaScript file
+  '/TVmaze/', // Root
+  '/TVmaze/index.html', // Main HTML file
+  '/TVmaze/style.css', // CSS file
+  '/TVmaze/apiexample.js' // JavaScript file
 ];
+
 
 // Install event: Cache static assets
 self.addEventListener('install', event => {
