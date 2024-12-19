@@ -110,9 +110,11 @@ function showEpisodes(data, elemDiv) {
         for (let episode of data) {
             if (!episode.name || !episode.id) continue;
             output += 
-                <li>
-                    <a href="javascript:showLightBox(${episode.id})">${episode.name}</a>
-                </li>;
+                output += `
+    <li>
+        <a href="javascript:showLightBox(${episode.id})">${episode.name}</a>
+    </li>`;
+
         }
         output += "</ol>";
         elemEpisodes.innerHTML = output;
