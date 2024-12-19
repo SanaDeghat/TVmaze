@@ -1,35 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <meta charset="utf-8">
- 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TV Maze</title>
+  <meta name="description" content="Explore TV shows from TV Maze. Search your favorite shows, view details, and enjoy a seamless experience with our PWA-ready app.">
+  <meta name="keywords" content="TV Maze, TV Shows, Show Search, TV Series, PWA App">
+  <meta name="author" content="Your Name">
+  <title>TV Maze - Discover TV Shows</title>
+
+  <!-- Open Graph Tags for Social Media -->
+  <meta property="og:title" content="TV Maze - Discover TV Shows">
+  <meta property="og:description" content="Search and explore TV shows with a user-friendly app. Install now for an enhanced experience.">
+  <meta property="og:image" content="icon512_rounded.png">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yourwebsite.com">
+
+  <!-- Include Manifest and Icons -->
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="icon512_rounded.png" type="image/png">
 
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" href="style.css">
 
-  <!-- Include an external style sheet -->
-  <link rel="stylesheet" href="style.css">  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
-  <!-- Include an external JavaScript file -->
+  <!-- External JavaScript -->
   <script src="apiexample.js" defer></script>
 </head>
 
 <body>
-  <h1>TV Shows at TV Maze</h1>
-  <p>Search up any TV shows (besides BSD)</p>
-  <input type="text" id="search" placeholder="Enter a shows name">
-  <button id="button">Look Up a TV Show</button>
-  <button id="installButton" style="display: none;">Install PWA app</button>
+  <header>
+    <h1>TV Shows at TV Maze</h1>
+    <p>Search for any TV show (besides BSD)</p>
+  </header>
 
-  <div id="main"></div>
-  <div id="lightbox">
-    <div id="message">Message</div>
-  </div>
+  <main>
+    <section>
+      <input type="text" id="search" placeholder="Enter a show's name" aria-label="Search for TV shows">
+      <button id="button" aria-label="Search Button">Look Up a TV Show</button>
+      <button id="installButton" style="display: none;" aria-label="Install PWA App">Install App</button>
+    </section>
 
-  <br><br>
+    <div id="main" role="main" aria-live="polite"></div>
+
+    <div id="lightbox" role="dialog" aria-labelledby="lightbox-title" aria-hidden="true">
+      <div id="message">
+        <h3 id="lightbox-title">Message</h3>
+        <p>Message content goes here...</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 Your Name. All rights reserved.</p>
+  </footer>
 </body>
 </html>
