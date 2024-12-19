@@ -6,31 +6,28 @@ body {
   padding: 0;
   text-align: center;
 }
-
 #installButton {
-  background-color: #4CC9F0; /* Distinct color for the install button */
-  color: #1A1A2E; /* Dark text color for contrast */
-  font-family: 'Press Start 2P', cursive; 
-  border: 3px solid #FFD60A; /* Add a prominent border */
-  padding: 15px 25px; /* Larger padding for emphasis */
-  margin: 20px auto; /* Center the button with margin spacing */
-  border-radius: 50px; /* Pill shape */
-  font-size: 16px; /* Slightly larger font size */
-  cursor: pointer; 
-  display: block; /* Centered layout */
-  width: fit-content; /* Ensure it's not too wide */
-  text-shadow: none; /* No text shadow for cleaner look */
-  transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 4px 8px rgba(76, 201, 240, 0.5); /* Subtle glow effect */
+  background-color: #FFD60A;
+  color: #1A1A2E;
+  font-family: 'Press Start 2P', cursive;
+  border: 2px solid #F72585;
+  padding: 12px 30px;
+  margin: 20px auto;
+  border-radius: 25px;
+  font-size: 16px;
+  cursor: pointer;
+  display: block;
+  width: fit-content;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
 }
 
 #installButton:hover {
-  background-color: #FFD60A; /* Bright yellow hover effect */
-  color: #4CC9F0; /* Reverse color scheme */
-  box-shadow: 0 8px 16px rgba(255, 214, 10, 0.7); /* Enhanced glow effect */
-  transform: scale(1.1); /* More noticeable scale effect */
+  background-color: #4CC9F0;
+  color: #FFFFFF;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px rgba(76, 201, 240, 0.5);
 }
-
 
 
 h1 {
