@@ -174,3 +174,20 @@ window.addEventListener('beforeinstallprompt', (e) => {
     });
   });
 });                    
+
+
+// Show offline message
+function showOfflineMessage(message) {
+    document.getElementById("main").innerHTML = `<div class="offline-message">${message}</div>`;
+}
+
+// Check online status
+function checkOnlineStatus() {
+    const statusElem = document.getElementById("status");
+    if (navigator.onLine) {
+        statusElem.style.display = "none";
+    } else {
+        statusElem.style.display = "block";
+        statusElem.innerHTML = "You are offline. Some features may not work.";
+    }
+}
