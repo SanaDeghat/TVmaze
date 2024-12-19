@@ -76,9 +76,16 @@ function createTVShow(tvshowJSON) {
     elemMain.appendChild(elemDiv);
 }
 
-// Display genres as a bulleted list
+// Display genres as a bulleted 
 function showGenres(genres) {
-    return genres.length ? "<ul>" + genres.map(g => <li>${g}</li>).join('') + "</ul>" : "None";
+    if (!genres.length) return "None";
+    
+    let list = "<ul>";
+    for (let i = 0; i < genres.length; i++) {
+        list += `<li>${genres[i]}</li>`;
+    }
+    list += "</ul>";
+    return list;
 }
 
 // Fetch episodes for a TV show
