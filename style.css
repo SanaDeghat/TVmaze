@@ -5,12 +5,11 @@ body {
   margin: 0;
   padding: 0;
   text-align: center;
-}
-#installButton {
-  background-color: #FFD60A;
-  color: #1A1A2E;
+}#installButton {
+  background-color: #4CC9F0;
+  color: #FFFFFF;
   font-family: 'Press Start 2P', cursive;
-  border: 2px solid #F72585;
+  border: 2px solid #FFD60A;
   padding: 12px 30px;
   margin: 20px auto;
   border-radius: 25px;
@@ -18,15 +17,13 @@ body {
   cursor: pointer;
   display: block;
   width: fit-content;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 6px rgba(76, 201, 240, 0.5);
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
 }
 
 #installButton:hover {
-  background-color: #4CC9F0;
-  color: #FFFFFF;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 10px rgba(76, 201, 240, 0.5);
+  box-shadow: 0 8px 15px rgba(76, 201, 240, 0.7);
+  transform: scale(1.03);
 }
 
 
