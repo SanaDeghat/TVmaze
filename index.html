@@ -1,35 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <meta charset="utf-8">
- 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TV Maze</title>
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" href="icon512_rounded.png" type="image/png">
-
-
-  <!-- Include an external style sheet -->
-  <link rel="stylesheet" href="style.css">  
-
-  <!-- Include an external JavaScript file -->
+  <link rel="stylesheet" href="style.css">
   <script src="apiexample.js" defer></script>
 </head>
-
 <body>
-  <h1>TV Shows at TV Maze</h1>
-  <p>Search up any TV shows (besides BSD)</p>
-  <input type="text" id="search" placeholder="Enter a shows name">
-  <button id="button">Look Up a TV Show</button>
-  <button id="installButton" style="display: none;">Install PWA app</button>
-
+  <h1>TV Maze</h1>
+  <p>Search for any TV show:</p>
+  <input type="text" id="search" placeholder="Enter a show's name">
+  <button id="button">Search</button>
+  <button id="installButton" style="display: none;">Install PWA</button>
+  <p id="status" style="display: none; color: red;"></p>
   <div id="main"></div>
-  <div id="lightbox">
-    <div id="message">Message</div>
+  <div id="lightbox" style="display: none;">
+    <div id="message"></div>
   </div>
-
-  <br><br>
 </body>
 </html>
