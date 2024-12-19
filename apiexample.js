@@ -1,128 +1,111 @@
-let apiURL = 'https://api.tvmaze.com/';
+const apiURL = 'https://api.tvmaze.com/';
 
-// Initialize page after HTML loads
 window.onload = function () {
-    closeLightBox(); // Close the lightbox initially
-    document.getElementById("button").onclick = function () {
-        searchTvShows();
-    };
+    closeLightBox();
+    document.getElementById("button").onclick = searchTvShows;
     document.getElementById("lightbox").onclick = function (event) {
         if (event.target === document.getElementById("lightbox")) {
-            closeLightBox(); // Close lightbox only when clicking outside the content
+            closeLightBox();
         }
     };
-}; // window.onload
+    checkOnlineStatus();
+    window.addEventListener("online", checkOnlineStatus);
+    window.addEventListener("offline", checkOnlineStatus);
+};
 
-// Get data from TV Maze
+// Search TV shows
 async function searchTvShows() {
-    document.getElementById("main").innerHTML = "";
+    const mainElem = document.getElementById("main");
+    mainElem.innerHTML = "";
+    const searchQuery = document.getElementById("search").value;
 
-    let search = document.getElementById("search").value;
+    if (!navigator.onLine) {
+        showOfflineMessage("You are offline. Connect to search for TV shows.");
+        return;
+    }
 
     try {
-        const response = await fetch(apiURL + 'search/shows?q=' + search);
+        const response = await fetch(`${apiURL}search/shows?q=${searchQuery}`);
+        if (!response.ok) throw new Error("Failed to fetch TV shows.");
         const data = await response.json();
-        showSearchResults(data);
+        data.forEach(tvShow => createTVShow(tvShow));
     } catch (error) {
-        console.error('Error fetching TV shows:', error);
+        console.error("Error fetching TV shows:", error);
+        mainElem.innerHTML = `<p class="error">Failed to fetch TV shows. Please try again later.</p>`;
     }
 }
 
-// Display search results
-function showSearchResults(data) {
-    for (let tvshow of data) {
-        createTVShow(tvshow);
-    }
-}
-
-// Create a card for each TV show
+// Create a TV show card
 function createTVShow(tvshowJSON) {
-    if (!tvshowJSON.show) return;
+    const { show } = tvshowJSON;
+    if (!show) return;
 
-    let elemMain = document.getElementById("main");
+    const mainElem = document.getElementById("main");
 
-    let elemDiv = document.createElement("div");
-    elemDiv.classList.add("card");
+    const cardElem = document.createElement("div");
+    cardElem.classList.add("card");
 
-    let elemShowTitle = document.createElement("h2");
-    elemShowTitle.classList.add("showtitle");
+    const titleElem = document.createElement("h2");
+    titleElem.classList.add("showtitle");
+    titleElem.innerText = show.name;
 
-    let elemGenre = document.createElement("div");
-    let elemRating = document.createElement("div");
-    let elemSummary = document.createElement("div");
+    const genreElem = document.createElement("div");
+    genreElem.innerHTML = `<strong>Genres:</strong> ${showGenres(show.genres)}`;
 
-    //card data
-    elemShowTitle.innerHTML = tvshowJSON.show.name;
-    elemGenre.innerHTML = "Genres: " + showGenres(tvshowJSON.show.genres);
-    elemRating.innerHTML = "Rating: " + (tvshowJSON.show.rating.average || "N/A");
-    elemSummary.innerHTML = tvshowJSON.show.summary || "No summary available.";
+    const ratingElem = document.createElement("div");
+    ratingElem.innerHTML = `<strong>Rating:</strong> ${show.rating.average || "N/A"}`;
 
-    elemDiv.appendChild(elemShowTitle);
-    elemDiv.appendChild(elemGenre);
-    elemDiv.appendChild(elemRating);
-    elemDiv.appendChild(elemSummary);
+    const summaryElem = document.createElement("div");
+    summaryElem.innerHTML = show.summary || "No summary available.";
 
-    // Add image only if available (serch rcne for this its so ennoying)
-    if (tvshowJSON.show.image) {
-        let elemImage = document.createElement("img");
-        elemImage.src = tvshowJSON.show.image.medium;
-        elemDiv.appendChild(elemImage);
+    cardElem.append(titleElem, genreElem, ratingElem, summaryElem);
+
+    if (show.image) {
+        const imgElem = document.createElement("img");
+        imgElem.src = show.image.medium;
+        imgElem.alt = `${show.name} Image`;
+        cardElem.appendChild(imgElem);
     }
 
-    // Fetch episodes and append them
-    let showId = tvshowJSON.show.id;
-    fetchEpisodes(showId, elemDiv);
+    fetchEpisodes(show.id, cardElem);
 
-    elemMain.appendChild(elemDiv);
+    mainElem.appendChild(cardElem);
 }
 
-// Display genres as a bulleted list
+// Show genres as a comma-separated list
 function showGenres(genres) {
-    return genres.length ? "<ul>" + genres.map(g => `<li>${g}</li>`).join('') + "</ul>" : "None";
+    return genres.length ? genres.join(", ") : "None";
 }
 
-// Fetch episodes for a TV show
-async function fetchEpisodes(showId, elemDiv) {
+// Fetch and display episodes
+async function fetchEpisodes(showId, cardElem) {
     try {
-        const response = await fetch(apiURL + 'shows/' + showId + '/episodes');
-        const data = await response.json();
-        showEpisodes(data, elemDiv);
+        const response = await fetch(`${apiURL}shows/${showId}/episodes`);
+        if (!response.ok) throw new Error("Failed to fetch episodes.");
+        const episodes = await response.json();
+        const episodeList = episodes.map(ep => `
+            <li>
+                <a href="javascript:showLightBox(${ep.id})">${ep.name}</a>
+            </li>
+        `).join("");
+        const episodeElem = document.createElement("div");
+        episodeElem.innerHTML = episodes.length ? `<ol>${episodeList}</ol>` : "<p>No episodes available.</p>";
+        cardElem.appendChild(episodeElem);
     } catch (error) {
-        console.error('Error fetching episodes:', error);
+        console.error("Error fetching episodes:", error);
+        cardElem.innerHTML += "<p>Failed to fetch episodes.</p>";
     }
 }
 
-// Display episodes in an ordered list or show "No episodes found."
-function showEpisodes(data, elemDiv) {
-    let elemEpisodes = document.createElement("div");
-
-    if (data.length === 0) {
-        elemEpisodes.innerHTML = "<p>No episodes found.</p>";
-    } else {
-        let output = "<ol>";
-        for (let episode of data) {
-            if (!episode.name || !episode.id) continue;
-            output += `
-                <li>
-                    <a href="javascript:showLightBox(${episode.id})">${episode.name}</a>
-                </li>`;
-        }
-        output += "</ol>";
-        elemEpisodes.innerHTML = output;
-    }
-
-    elemDiv.appendChild(elemEpisodes);
-}
-
-// Display lightbox with episode details
+// Display episode details in lightbox
 async function showLightBox(episodeId) {
-    let lightbox = document.getElementById("lightbox");
+    const lightbox = document.getElementById("lightbox");
     lightbox.style.display = "flex";
 
     try {
-        const response = await fetch(apiURL + 'episodes/' + episodeId);
+        const response = await fetch(`${apiURL}episodes/${episodeId}`);
+        if (!response.ok) throw new Error("Failed to fetch episode details.");
         const episode = await response.json();
-
         document.getElementById("message").innerHTML = `
             <img src="${episode.image ? episode.image.medium : 'https://via.placeholder.com/210'}" alt="Episode Image">
             <h3>${episode.name}</h3>
@@ -130,7 +113,7 @@ async function showLightBox(episodeId) {
             <p>${episode.summary || "No summary available."}</p>
         `;
     } catch (error) {
-        console.error('Error fetching episode details:', error);
+        console.error("Error fetching episode details:", error);
         document.getElementById("message").innerHTML = "<p>Error loading episode details.</p>";
     }
 }
@@ -140,54 +123,27 @@ function closeLightBox() {
     document.getElementById("lightbox").style.display = "none";
 }
 
-// Load the service worker
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function() {
-      navigator.serviceWorker.register('sw.js').then(function(registration) {
-        console.log('Service Worker registered with scope:', registration.scope);
-      }, function(error) {
-        console.error('Service Worker registration failed:', error);
-      });
-    });
-  }
-  
-  // handle install prompt
-let deferredPrompt;
-
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-
-  const installButton = document.getElementById('installButton');
-  installButton.style.display = 'block';
-
-  installButton.addEventListener('click', () => {
-    installButton.style.display = 'none';
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then((choiceResult) => {
-      if (choiceResult.outcome === 'accepted') {
-        console.log('User accepted the install prompt');
-      } else {
-        console.log('User dismissed the install prompt');
-      }
-      deferredPrompt = null;
-    });
-  });
-});                    
-
-
 // Show offline message
 function showOfflineMessage(message) {
-    document.getElementById("main").innerHTML = `<div class="offline-message">${message}</div>`;
+    const mainElem = document.getElementById("main");
+    mainElem.innerHTML = `<p class="offline">${message}</p>`;
 }
 
-// Check online status
+// Check online status and update UI
 function checkOnlineStatus() {
     const statusElem = document.getElementById("status");
     if (navigator.onLine) {
         statusElem.style.display = "none";
     } else {
         statusElem.style.display = "block";
-        statusElem.innerHTML = "You are offline. Some features may not work.";
+        statusElem.innerText = "You are offline. Some features may not work.";
     }
+}
+
+// Register service worker
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').then(
+        registration => console.log("Service Worker registered:", registration.scope),
+        error => console.error("Service Worker registration failed:", error)
+    );
 }
