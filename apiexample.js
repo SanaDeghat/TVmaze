@@ -1,4 +1,4 @@
-let apiURL = 'http://api.tvmaze.com/';
+let apiURL = 'https://api.tvmaze.com/';
 
 // Initialize page after HTML loads
 window.onload = function () {
