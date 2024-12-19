@@ -46,8 +46,8 @@
   "description": "TV Shows at TV Maze",
   "screenshots": [
     {
-      "src": "screenshots/screenshot1.png",
-      "sizes": "580x328",
+      "src": "screenshots/screenshot11.png",
+      "sizes": "1919x919",
       "type": "image/png",
       "form_factor": "wide",
       "purpose": "any"
