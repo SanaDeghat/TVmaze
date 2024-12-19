@@ -7,6 +7,26 @@ body {
   text-align: center;
 }
 
+#installButton {
+  background-color: #4CC9F0; /* Primary color for the button */
+  color: #FFFFFF; /* White text color */
+  font-family: 'Press Start 2P', cursive; /* Match the font style */
+  border: none; /* Remove default border */
+  padding: 10px 20px; /* Padding for size */
+  margin-top: 10px; /* Spacing above */
+  border-radius: 5px; /* Rounded corners */
+  font-size: 14px; /* Font size for the text */
+  cursor: pointer; /* Pointer cursor on hover */
+  text-shadow: 2px 2px #000000; /* Subtle shadow for text */
+  transition: transform 0.2s ease, background-color 0.3s ease; /* Smooth hover effect */
+}
+
+#installButton:hover {
+  background-color: #FFD60A; /* Highlight color on hover */
+  transform: scale(1.05); /* Slight scaling effect */
+}
+
+
 h1 {
   color: #FFD60A; 
   font-size: 36px;
