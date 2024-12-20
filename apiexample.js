@@ -11,7 +11,7 @@ window.onload = function () {
             closeLightBox(); // Close lightbox only when clicking outside the content
         }
     };
-}; // window.onload
+};
 
 // Get data from TV Maze
 async function searchTvShows() {
@@ -51,7 +51,7 @@ function createTVShow(tvshowJSON) {
     let elemRating = document.createElement("div");
     let elemSummary = document.createElement("div");
 
-    //card data
+    // Card data
     elemShowTitle.innerHTML = tvshowJSON.show.name;
     elemGenre.innerHTML = "Genres: " + showGenres(tvshowJSON.show.genres);
     elemRating.innerHTML = "Rating: " + (tvshowJSON.show.rating.average || "N/A");
@@ -62,7 +62,7 @@ function createTVShow(tvshowJSON) {
     elemDiv.appendChild(elemRating);
     elemDiv.appendChild(elemSummary);
 
-    // Add image only if available (serch rcne for this its so ennoying)
+    // Add image only if available
     if (tvshowJSON.show.image) {
         let elemImage = document.createElement("img");
         elemImage.src = tvshowJSON.show.image.medium;
@@ -76,10 +76,10 @@ function createTVShow(tvshowJSON) {
     elemMain.appendChild(elemDiv);
 }
 
-// Display genres as a bulleted 
+// Display genres as a bulleted list without using map
 function showGenres(genres) {
     if (!genres.length) return "None";
-    
+
     let list = "<ul>";
     for (let i = 0; i < genres.length; i++) {
         list += `<li>${genres[i]}</li>`;
@@ -109,12 +109,10 @@ function showEpisodes(data, elemDiv) {
         let output = "<ol>";
         for (let episode of data) {
             if (!episode.name || !episode.id) continue;
-            output += 
-                output += `
-    <li>
-        <a href="javascript:showLightBox(${episode.id})">${episode.name}</a>
-    </li>`;
-
+            output += `
+                <li>
+                    <a href="javascript:showLightBox(${episode.id})">${episode.name}</a>
+                </li>`;
         }
         output += "</ol>";
         elemEpisodes.innerHTML = output;
@@ -132,12 +130,12 @@ async function showLightBox(episodeId) {
         const response = await fetch(apiURL + 'episodes/' + episodeId);
         const episode = await response.json();
 
-        document.getElementById("message").innerHTML = 
+        document.getElementById("message").innerHTML = `
             <img src="${episode.image ? episode.image.medium : 'https://via.placeholder.com/210'}" alt="Episode Image">
             <h3>${episode.name}</h3>
             <p><strong>Season:</strong> ${episode.season}, <strong>Episode:</strong> ${episode.number}</p>
             <p>${episode.summary || "No summary available."}</p>
-        ;
+        `;
     } catch (error) {
         console.error('Error fetching episode details:', error);
         document.getElementById("message").innerHTML = "<p>Error loading episode details.</p>";
@@ -152,34 +150,34 @@ function closeLightBox() {
 // Load the service worker
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
-      navigator.serviceWorker.register('sw.js').then(function(registration) {
-        console.log('Service Worker registered with scope:', registration.scope);
-      }, function(error) {
-        console.error('Service Worker registration failed:', error);
-      });
+        navigator.serviceWorker.register('sw.js').then(function(registration) {
+            console.log('Service Worker registered with scope:', registration.scope);
+        }, function(error) {
+            console.error('Service Worker registration failed:', error);
+        });
     });
-  }
-  
-  // handle install prompt
+}
+
+// Handle install prompt
 let deferredPrompt;
 
 window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
+    e.preventDefault();
+    deferredPrompt = e;
 
-  const installButton = document.getElementById('installButton');
-  installButton.style.display = 'block';
+    const installButton = document.getElementById('installButton');
+    installButton.style.display = 'block';
 
-  installButton.addEventListener('click', () => {
-    installButton.style.display = 'none';
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then((choiceResult) => {
-      if (choiceResult.outcome === 'accepted') {
-        console.log('User accepted the install prompt');
-      } else {
-        console.log('User dismissed the install prompt');
-      }
-      deferredPrompt = null;
+    installButton.addEventListener('click', () => {
+        installButton.style.display = 'none';
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted the install prompt');
+            } else {
+                console.log('User dismissed the install prompt');
+            }
+            deferredPrompt = null;
+        });
     });
-  });
-});                    
+});
