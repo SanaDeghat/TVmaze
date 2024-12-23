@@ -173,9 +173,9 @@ window.addEventListener('beforeinstallprompt', (e) => {
         deferredPrompt.prompt();
         deferredPrompt.userChoice.then((choiceResult) => {
             if (choiceResult.outcome === 'accepted') {
-                console.log('User accepted the install prompt');
+                console.log('yippee its installed');
             } else {
-                console.log('User dismissed the install prompt');
+                console.log('not yippee not installed');
             }
             deferredPrompt = null;
         });
