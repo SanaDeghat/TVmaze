@@ -20,7 +20,7 @@ self.addEventListener('install', event => {
       });
     })
   );
-  console.log('Service Worker installed and static assets cached.');
+  console.log('yippee Service Worker installed and cach cached.');
 });
 
 // Activate event: Clean up old caches
@@ -34,7 +34,7 @@ self.addEventListener('activate', event => {
       );
     })
   );
-  console.log('Service Worker activated, old caches cleaned.');
+  console.log('Service Worker activated, old caches cleaned reedy for new');
 });
 
 // Fetch event: Network-first strategy with dynamic caching
